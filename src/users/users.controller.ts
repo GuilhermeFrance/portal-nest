@@ -24,7 +24,7 @@ export class UsersController {
   @Get()
   findAll(
     @Query('page') page: string = '1',
-    @Query('limit') limit: string = '7',
+    @Query('limit') limit: string = '8',
   ) {
     const pageNumber = parseInt(page);
     const limitNumber = parseInt(limit);
