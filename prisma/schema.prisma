@@ -14,15 +14,14 @@ datasource db {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  email         String   @unique
-  name          String
-  cpf           String   
-  roleId        Int?
-  role          Role?    @relation(fields: [roleId], references: [id])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  cpf       String
+  roleId    Int?
+  role      Role?    @relation(fields: [roleId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("users")
 }
@@ -35,4 +34,47 @@ model Role {
   users     User[]
 
   @@map("roles")
+}
+
+model Client {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String
+  cpf       String    @unique
+  requests  Request[]
+  createdAt DateTime  @default(now())
+
+  @@map("clients")
+}
+
+model Request {
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String        @db.VarChar(300)
+  adress      String
+  type        Type?         @relation(fields: [typeId], references: [id])
+  typeId      Int?
+  Client      Client?       @relation(fields: [clientId], references: [id])
+  clientId    Int?
+  status      RequestStatus @default(ABERTO)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+
+  @@map("requests")
+}
+
+model Type {
+  id        Int       @id @default(autoincrement())
+  key       String    @unique
+  name      String    @unique
+  requests  Request[]
+  createdAt DateTime  @default(now())
+}
+
+enum RequestStatus {
+  ABERTO
+  EM_ANDAMENTO
+  CONCLUIDO
+  REJEITADO
 }
