@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { RequestsService } from './requests.service';
 import { RequestsController } from './requests.controller';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { RequestRepository } from './repository/type.repository';
+import { RequestRepository } from './repository/requests.repository';
 
 @Module({
   controllers: [RequestsController],

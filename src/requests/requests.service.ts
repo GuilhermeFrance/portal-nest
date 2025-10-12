@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
-import { RequestRepository } from './repository/type.repository';
+import { RequestRepository } from './repository/requests.repository';
 
 @Injectable()
 export class RequestsService {
@@ -14,6 +14,10 @@ export class RequestsService {
     return this.repository.findAll();
   }
 
+  async findAllPaginated(page: number, limit: number) {
+    // A lógica de paginação e cálculo está no Repository.
+    return this.repository.findAllPaginated(page, limit);
+  }
   findOne(id: number) {
     return this.repository.findOne(id);
   }

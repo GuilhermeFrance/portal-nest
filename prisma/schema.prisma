@@ -74,7 +74,7 @@ model Type {
 
 enum RequestStatus {
   ABERTO
-  EM_ANDAMENTO
+  PROCESSANDO
   CONCLUIDO
   REJEITADO
 }

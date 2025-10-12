@@ -23,6 +23,34 @@ export class RequestRepository {
   findAll(): Promise<RequestEntity[]> {
     return this.prisma.request.findMany();
   }
+  async findAllPaginated(page: number, limit: number) {
+    const skip = (page - 1) * limit;
+
+    // Usa $transaction para garantir que a contagem e a busca ocorram juntas
+    const [data, total] = await this.prisma.$transaction([
+      this.prisma.request.findMany({
+        skip: skip,
+        take: limit,
+        include: {
+          type: {
+            // Nome do campo de relacionamento no seu modelo Request
+            select: { name: true }, // Buscar apenas o nome do tipo
+          },
+        },
+      }),
+      this.prisma.request.count(),
+    ]);
+
+    const lastPage = Math.ceil(total / limit);
+
+    // Retorna o objeto paginado
+    return {
+      data, // A lista de usuários na página atual
+      total, // O número total de usuários
+      lastPage, // O número total de páginas
+      currentPage: page,
+    };
+  }
 
   async findOne(id: number): Promise<RequestEntity> {
     const request = await this.prisma.request.findUnique({
