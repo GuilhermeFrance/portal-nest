@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateRequestDto {
   @IsString()
@@ -14,6 +14,6 @@ export class CreateRequestDto {
   @IsNotEmpty()
   typeId: number | null;
   @IsInt()
-  @IsNotEmpty()
-  clientId: number | null;
+  @IsOptional()
+  clientId?: number | null;
 }

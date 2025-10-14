@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserEntity } from '../entities/user.entity';
+import { delay } from 'src/utils/delay';
 
 @Injectable()
 export class UserRepository {
@@ -33,6 +34,7 @@ export class UserRepository {
   }
 
   async findAllPaginated(page: number, limit: number) {
+    await delay(300);
     const skip = (page - 1) * limit;
 
     // Usa $transaction para garantir que a contagem e a busca ocorram juntas
