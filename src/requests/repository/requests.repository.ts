@@ -35,8 +35,7 @@ export class RequestRepository {
         take: limit,
         include: {
           type: {
-            // Nome do campo de relacionamento no seu modelo Request
-            select: { name: true }, // Buscar apenas o nome do tipo
+            select: { name: true },
           },
         },
       }),
@@ -45,11 +44,10 @@ export class RequestRepository {
 
     const lastPage = Math.ceil(total / limit);
 
-    // Retorna o objeto paginado
     return {
-      data, // A lista de usuários na página atual
-      total, // O número total de usuários
-      lastPage, // O número total de páginas
+      data,
+      total,
+      lastPage,
       currentPage: page,
     };
   }

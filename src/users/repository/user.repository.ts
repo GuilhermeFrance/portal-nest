@@ -37,12 +37,11 @@ export class UserRepository {
     await delay(300);
     const skip = (page - 1) * limit;
 
-    // Usa $transaction para garantir que a contagem e a busca ocorram juntas
     const [data, total] = await this.prisma.$transaction([
       this.prisma.user.findMany({
         skip: skip,
         take: limit,
-        // Inclua relacionamentos necessários aqui (ex: role)
+
         include: {
           role: { select: { name: true } },
         },
@@ -52,11 +51,10 @@ export class UserRepository {
 
     const lastPage = Math.ceil(total / limit);
 
-    // Retorna o objeto paginado
     return {
-      data, // A lista de usuários na página atual
-      total, // O número total de usuários
-      lastPage, // O número total de páginas
+      data,
+      total,
+      lastPage,
       currentPage: page,
     };
   }
