@@ -12,7 +12,14 @@ import { TypesModule } from './types/types.module';
 import { RequestsModule } from './requests/requests.module';
 
 @Module({
-  imports: [UsersModule, ConfigModule.forRoot(), RolesModule, ClientsModule, TypesModule, RequestsModule],
+  imports: [
+    UsersModule,
+    ConfigModule.forRoot(),
+    RolesModule,
+    ClientsModule,
+    TypesModule,
+    RequestsModule,
+  ],
   controllers: [AppController],
   providers: [AppService, PrismaService, UserRepository, RoleRepository],
 })
