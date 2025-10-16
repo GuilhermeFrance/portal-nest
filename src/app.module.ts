@@ -10,6 +10,8 @@ import { RoleRepository } from './roles/repository/role.repository';
 import { ClientsModule } from './clients/clients.module';
 import { TypesModule } from './types/types.module';
 import { RequestsModule } from './requests/requests.module';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,8 +21,9 @@ import { RequestsModule } from './requests/requests.module';
     ClientsModule,
     TypesModule,
     RequestsModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService, UserRepository, RoleRepository],
+  providers: [AppService, PrismaService, UserRepository, RoleRepository, AuthService],
 })
 export class AppModule {}
