@@ -15,7 +15,6 @@ export class UsersService {
   }
 
   async findAllPaginated(page: number, limit: number) {
-    // A lógica de paginação e cálculo está no Repository.
     return this.repository.findAllPaginated(page, limit);
   }
 
