@@ -15,6 +15,10 @@ export class ClientsService {
     return this.repository.findAll();
   }
 
+  findByEmail(email: string): Promise<ClientEntity> {
+    return this.repository.findbyEmail(email);
+  }
+
   findOne(id: number): Promise<ClientEntity> {
     return this.repository.findOne(id);
   }
