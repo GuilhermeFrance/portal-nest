@@ -12,6 +12,7 @@ import { TypesModule } from './types/types.module';
 import { RequestsModule } from './requests/requests.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
@@ -24,6 +25,6 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController, AuthController],
-  providers: [AppService, PrismaService, UserRepository, RoleRepository],
+  providers: [AppService, PrismaService, UserRepository, RoleRepository, AuthService],
 })
 export class AppModule {}
