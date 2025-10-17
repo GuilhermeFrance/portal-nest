@@ -43,12 +43,6 @@ export class ClientRepository {
   async findbyEmail(email: string): Promise<ClientEntity> {
     const client = await this.prisma.client.findUnique({
       where: { email },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        cpf: true,
-      },
     });
     if (!client) {
       throw new NotFoundException('Usuário não encontrado');

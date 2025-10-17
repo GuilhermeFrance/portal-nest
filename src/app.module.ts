@@ -10,21 +10,21 @@ import { RoleRepository } from './roles/repository/role.repository';
 import { ClientsModule } from './clients/clients.module';
 import { TypesModule } from './types/types.module';
 import { RequestsModule } from './requests/requests.module';
-import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
-import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
     UsersModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     RolesModule,
     ClientsModule,
     TypesModule,
     RequestsModule,
     AuthModule,
   ],
-  controllers: [AppController, AuthController],
-  providers: [AppService, PrismaService, UserRepository, RoleRepository, AuthService],
+  controllers: [AppController],
+  providers: [AppService, PrismaService, UserRepository, RoleRepository],
 })
 export class AppModule {}
