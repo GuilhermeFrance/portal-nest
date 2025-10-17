@@ -3,15 +3,37 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { ClientEntity } from '../entities/client.entity';
 import { CreateClientDto } from '../dto/create-client.dto';
 import { UpdateClientDto } from '../dto/update-client.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class ClientRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: CreateClientDto): Promise<ClientEntity> {
-    return this.prisma.client.create({
+  async create(createClientDto: CreateClientDto): Promise<ClientEntity> {
+    const passwordHash: string = await bcrypt.hash(
+      createClientDto.password,
+      10,
+    );
+
+    const data = {
+      name: createClientDto.name,
+      email: createClientDto.email,
+      cpf: createClientDto.cpf,
+      password: passwordHash,
+    };
+
+    const created = await this.prisma.client.create({
       data,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        cpf: true,
+        createdAt: true,
+      },
     });
+
+    return created as unknown as ClientEntity;
   }
 
   findAll(): Promise<ClientEntity[]> {

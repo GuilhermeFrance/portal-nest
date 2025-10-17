@@ -10,7 +10,7 @@ import { RoleRepository } from './roles/repository/role.repository';
 import { ClientsModule } from './clients/clients.module';
 import { TypesModule } from './types/types.module';
 import { RequestsModule } from './requests/requests.module';
-import { AuthService } from './auth/auth.service';
+import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -23,7 +23,7 @@ import { AuthModule } from './auth/auth.module';
     RequestsModule,
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, PrismaService, UserRepository, RoleRepository, AuthService],
+  controllers: [AppController, AuthController],
+  providers: [AppService, PrismaService, UserRepository, RoleRepository],
 })
 export class AppModule {}
