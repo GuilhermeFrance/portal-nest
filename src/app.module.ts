@@ -11,6 +11,8 @@ import { ClientsModule } from './clients/clients.module';
 import { TypesModule } from './types/types.module';
 import { RequestsModule } from './requests/requests.module';
 import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -25,6 +27,15 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService, UserRepository, RoleRepository],
+  providers: [
+    AppService,
+    PrismaService,
+    UserRepository,
+    RoleRepository,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}
