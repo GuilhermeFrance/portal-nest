@@ -25,7 +25,7 @@ export class RequestsController {
     return this.requestsService.create(createRequestDto);
   }
 
-  @Get()
+  @Get('all')
   findAll(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '8',

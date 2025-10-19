@@ -5,12 +5,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-// Password
+
 import { AuthGuard } from '@nestjs/passport';
-// Decorators
+
 import { IS_PUBLIC_KEY } from '../decorators/is-public.decorator';
 import { UnauthorizedError } from '../errors/unauthorized.error';
-// Error Handling
+
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
   constructor(private reflector: Reflector) {
@@ -23,7 +23,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       context.getClass(),
     ]);
 
+    console.log('🔍 JwtAuthGuard - Route:', context.getHandler().name);
+    console.log('🔍 JwtAuthGuard - IsPublic:', isPublic);
+
     if (isPublic) {
+      console.log('✅ Route is public, allowing access');
       return true;
     }
 
