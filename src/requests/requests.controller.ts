@@ -12,7 +12,9 @@ import { RequestsService } from './requests.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
+@IsPublic()
 @ApiTags('Solicitações')
 @Controller('requests')
 export class RequestsController {

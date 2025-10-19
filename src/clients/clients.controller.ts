@@ -14,12 +14,12 @@ import { ApiTags } from '@nestjs/swagger';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @ApiTags('Solicitantes')
-@Controller('clients')
+@Controller()
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @IsPublic()
-  @Post()
+  @Post('register')
   create(@Body() createClientDto: CreateClientDto) {
     return this.clientsService.create(createClientDto);
   }
