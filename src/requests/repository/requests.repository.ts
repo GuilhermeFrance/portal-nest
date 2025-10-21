@@ -13,11 +13,8 @@ export class RequestRepository {
     return this.prisma.request.create({
       data,
       include: {
-        type: {
-          select: {
-            name: true,
-          },
-        },
+        type: true,
+        status: true,
       },
     });
   }
@@ -34,9 +31,8 @@ export class RequestRepository {
         skip: skip,
         take: limit,
         include: {
-          type: {
-            select: { name: true },
-          },
+          type: true,
+          status: true,
         },
       }),
       this.prisma.request.count(),

@@ -13,6 +13,7 @@ import { RequestsModule } from './requests/requests.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { StatusModule } from './status/status.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
     TypesModule,
     RequestsModule,
     AuthModule,
+    StatusModule,
   ],
   controllers: [AppController],
   providers: [

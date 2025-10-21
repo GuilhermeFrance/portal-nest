@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -52,7 +51,8 @@ model Request {
   typeId      Int?
   Client      Client?       @relation(fields: [clientId], references: [id])
   clientId    Int?
-  status      RequestStatus @default(ABERTO)
+  status      RequestStatus?  @relation(fields: [statusKey], references: [key])
+  statusKey    String?  @default("aberto")
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @default(now())
 
@@ -67,9 +67,9 @@ model Type {
   createdAt DateTime  @default(now())
 }
 
-enum RequestStatus {
-  ABERTO
-  PROCESSANDO
-  CONCLUÍDO
-  REJEITADO
+model RequestStatus {
+  id       Int       @id @default(autoincrement())
+  key      String    @unique
+  name     String    @unique
+  requests Request[]
 }

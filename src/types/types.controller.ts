@@ -11,7 +11,9 @@ import { TypesService } from './types.service';
 import { CreateTypeDto } from './dto/create-type.dto';
 import { UpdateTypeDto } from './dto/update-type.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
+@IsPublic()
 @ApiTags('Serviços (tipos de serviços prestados)')
 @Controller('v1/types')
 export class TypesController {
