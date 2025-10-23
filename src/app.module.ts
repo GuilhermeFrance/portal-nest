@@ -14,6 +14,7 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { StatusModule } from './status/status.module';
+import { BadgesModule } from './badges/badges.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { StatusModule } from './status/status.module';
     RequestsModule,
     AuthModule,
     StatusModule,
+    BadgesModule,
   ],
   controllers: [AppController],
   providers: [

@@ -27,4 +27,8 @@ export class CreateClientDto {
     message: 'senha muito fraca',
   })
   password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  badgesKey?: string;
 }

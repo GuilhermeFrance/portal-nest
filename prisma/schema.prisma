@@ -36,25 +36,37 @@ model Client {
   email     String    @unique
   password  String
   cpf       String    @unique
+  badgesKey String    @default("requester")
+  badge     Badge     @relation(fields: [badgesKey], references: [key])
   requests  Request[]
   createdAt DateTime  @default(now())
 
   @@map("clients")
 }
 
+model Badge {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  name      String   @unique
+  createdAt DateTime @default(now())
+  clients   Client[]
+
+  @@map("badges")
+}
+
 model Request {
-  id          Int           @id @default(autoincrement())
+  id          Int            @id @default(autoincrement())
   name        String
-  description String        @db.VarChar(300)
+  description String         @db.VarChar(300)
   adress      String
-  type        Type?         @relation(fields: [typeId], references: [id])
+  type        Type?          @relation(fields: [typeId], references: [id])
   typeId      Int?
-  Client      Client?       @relation(fields: [clientId], references: [id])
+  Client      Client?        @relation(fields: [clientId], references: [id])
   clientId    Int?
-  status      RequestStatus?  @relation(fields: [statusKey], references: [key])
-  statusKey    String?  @default("aberto")
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @default(now())
+  status      RequestStatus? @relation(fields: [statusKey], references: [key])
+  statusKey   String?        @default("aberto")
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @default(now())
 
   @@map("requests")
 }
