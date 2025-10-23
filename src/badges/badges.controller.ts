@@ -1,18 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { BadgesService } from './badges.service';
 import { CreateBadgeDto } from './dto/create-badge.dto';
 import { UpdateBadgeDto } from './dto/update-badge.dto';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
-@Controller('badges')
+@IsPublic()
+@Controller()
 export class BadgesController {
   constructor(private readonly badgesService: BadgesService) {}
 
-  @Post()
+  @Post('badges')
   create(@Body() createBadgeDto: CreateBadgeDto) {
     return this.badgesService.create(createBadgeDto);
   }
 
-  @Get()
+  @Get('badges/all')
   findAll() {
     return this.badgesService.findAll();
   }

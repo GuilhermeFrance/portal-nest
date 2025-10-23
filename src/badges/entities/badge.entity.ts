@@ -1,4 +1,4 @@
-import { Badge } from "@prisma/client";
+import { Badge } from '@prisma/client';
 
 export class BadgeEntity implements Badge {
   name: string;

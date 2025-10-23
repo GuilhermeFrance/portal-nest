@@ -15,7 +15,7 @@ import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @IsPublic()
 @ApiTags('Cargos')
-@Controller('roles')
+@Controller()
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
@@ -24,7 +24,7 @@ export class RolesController {
     return this.rolesService.create(createRoleDto);
   }
 
-  @Get()
+  @Get('allroles')
   findAll() {
     return this.rolesService.findAll();
   }

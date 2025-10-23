@@ -1,18 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserEntity } from '../entities/user.entity';
 import { delay } from 'src/utils/delay';
 import { CaslAbilityService } from 'src/casl/casl-ability/casl-ability.service';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @Injectable()
+@UseGuards(AuthGuard)
 export class UserRepository {
   constructor(
     private readonly prisma: PrismaService,
     private readonly abilityService: CaslAbilityService,
   ) {}
   async create(data: CreateUserDto): Promise<UserEntity> {
+    const ability = this.abilityService.ability;
+    if (!ability.can('create', 'User')) {
+      throw new UnauthorizedException('Invalid Token');
+    }
     return this.prisma.user.create({
       data,
       include: {

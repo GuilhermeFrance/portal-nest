@@ -24,7 +24,7 @@ export class ClientsController {
     return this.clientsService.create(createClientDto);
   }
   @IsPublic()
-  @Get('clients')
+  @Get('clients/all')
   findAll() {
     return this.clientsService.findAll();
   }
