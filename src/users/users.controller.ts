@@ -7,15 +7,16 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
-@IsPublic()
 @ApiTags('Funcionários')
+@UseGuards(AuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

@@ -1,12 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './repository/user.repository';
+import { CaslAbilityService } from 'src/casl/casl-ability/casl-ability.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly repository: UserRepository) {}
+  constructor(
+    private readonly repository: UserRepository,
+    private readonly abilityService: CaslAbilityService,
+  ) {}
   create(createUserDto: CreateUserDto) {
+    const ability = this.abilityService.ability;
+
+    if (!ability.can('create', 'User')) {
+      throw new UnauthorizedException('Operation not permitted');
+    }
     return this.repository.create(createUserDto);
   }
 

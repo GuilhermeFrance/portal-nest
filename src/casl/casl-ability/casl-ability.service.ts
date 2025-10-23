@@ -1,7 +1,7 @@
 import { PureAbility } from '@casl/ability';
 import { createPrismaAbility, Subjects } from '@casl/prisma';
 import { AbilityBuilder } from '@casl/ability';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 import {
   Client,
   Request,
@@ -18,7 +18,7 @@ export type BadgeKey = 'admin' | 'manager' | 'requester' | 'employee';
 export type PermitionResources =
   | Subjects<{
       User: User;
-      Requests: Request;
+      Request: Request;
       Status: RequestStatus;
       Client: Client;
       Role: Role;
@@ -36,6 +36,7 @@ export type DefinePermissions = (
 const rolePermissionsMap: Record<BadgeKey, DefinePermissions> = {
   admin(client, { can }) {
     can('manage', 'all');
+    can('create', 'User');
   },
   manager(client, { can }) {
     can('read', 'all');
@@ -43,23 +44,23 @@ const rolePermissionsMap: Record<BadgeKey, DefinePermissions> = {
     can('create', 'User');
   },
   requester(client, { can }) {
-    can('create', 'Requests');
-    can('read', 'Requests', { userId: client.id });
-    can('delete', 'Requests', { userId: client.id });
+    can('create', 'Request');
+    can('read', 'Request', { userId: client.id });
+    can('delete', 'Request', { userId: client.id });
   },
   employee(client, { can }) {
-    can('read', 'Requests', { userId: client.id });
+    can('read', 'Request', { userId: client.id });
     can('manage', 'Status');
-    can('delete', 'Requests');
+    can('delete', 'Request');
   },
 };
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class CaslAbilityService {
   ability: AppAbility;
-  createForClient(client: Client) {
+  createForClient(client: Client): AppAbility {
     const builder = new AbilityBuilder<AppAbility>(createPrismaAbility);
-    rolePermissionsMap[(client.badgesKey ?? 'requester') as BadgeKey](
+    rolePermissionsMap[(client.badgesKey ?? 'admin') as BadgeKey](
       client,
       builder,
     );

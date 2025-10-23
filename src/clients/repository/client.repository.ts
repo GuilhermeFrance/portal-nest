@@ -20,6 +20,7 @@ export class ClientRepository {
       email: createClientDto.email,
       cpf: createClientDto.cpf,
       password: passwordHash,
+      badgesKey: createClientDto.badgesKey,
     };
 
     const created = await this.prisma.client.create({
@@ -30,6 +31,7 @@ export class ClientRepository {
         email: true,
         cpf: true,
         createdAt: true,
+        badgesKey: true,
       },
     });
 

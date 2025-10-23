@@ -6,14 +6,17 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { CaslAbilityService } from 'src/casl/casl-ability/casl-ability.service';
 
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ClientPayload } from '../models/ClientPayload';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly JwtService: JwtService,
     private readonly prisma: PrismaService,
+    private readonly AbilityService: CaslAbilityService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -24,10 +27,9 @@ export class AuthGuard implements CanActivate {
       throw new NotFoundException('No token provided');
     }
     try {
-      const payload = this.JwtService.verify<{
-        email: string;
-        password: string;
-      }>(token, { algorithms: ['HS256'] });
+      const payload = this.JwtService.verify<ClientPayload>(token, {
+        algorithms: ['HS256'],
+      });
       const user = await this.prisma.client.findUnique({
         where: { email: payload.email },
       });
@@ -35,6 +37,7 @@ export class AuthGuard implements CanActivate {
         throw new NotFoundException('User not found');
       }
       request.user = user;
+      this.AbilityService.createForClient(user);
       return true;
     } catch (e) {
       console.error(e);

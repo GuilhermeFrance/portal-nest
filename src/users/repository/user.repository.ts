@@ -4,10 +4,14 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserEntity } from '../entities/user.entity';
 import { delay } from 'src/utils/delay';
+import { CaslAbilityService } from 'src/casl/casl-ability/casl-ability.service';
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly abilityService: CaslAbilityService,
+  ) {}
   async create(data: CreateUserDto): Promise<UserEntity> {
     return this.prisma.user.create({
       data,
