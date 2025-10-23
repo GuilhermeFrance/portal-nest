@@ -15,6 +15,9 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { StatusModule } from './status/status.module';
 import { BadgesModule } from './badges/badges.module';
+import { CaslAbilityService } from './casl/casl-ability/casl-ability.service';
+import { AuthService } from './auth/auth.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -29,6 +32,7 @@ import { BadgesModule } from './badges/badges.module';
     AuthModule,
     StatusModule,
     BadgesModule,
+    JwtModule,
   ],
   controllers: [AppController],
   providers: [
@@ -40,6 +44,8 @@ import { BadgesModule } from './badges/badges.module';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    CaslAbilityService,
+    AuthService,
   ],
 })
 export class AppModule {}

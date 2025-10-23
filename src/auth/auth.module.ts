@@ -5,8 +5,9 @@ import { ClientsModule } from 'src/clients/clients.module';
 import { PassportModule } from '@nestjs/passport';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { LocalStrategy } from './strategies/local.strategy';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { CaslModule } from '../casl/casl-ability/casl.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1d', algorithm: 'HS256' },
     }),
+    CaslModule,
   ],
   providers: [AuthService, PrismaService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
