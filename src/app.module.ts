@@ -17,7 +17,6 @@ import { StatusModule } from './status/status.module';
 import { BadgesModule } from './badges/badges.module';
 import { CaslAbilityService } from './casl/casl-ability/casl-ability.service';
 import { AuthService } from './auth/auth.service';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -32,7 +31,6 @@ import { JwtModule } from '@nestjs/jwt';
     AuthModule,
     StatusModule,
     BadgesModule,
-    JwtModule,
   ],
   controllers: [AppController],
   providers: [

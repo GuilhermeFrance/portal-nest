@@ -19,7 +19,7 @@ import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
-  @Post()
+  @Post('roles')
   create(@Body() createRoleDto: CreateRoleDto) {
     return this.rolesService.create(createRoleDto);
   }
