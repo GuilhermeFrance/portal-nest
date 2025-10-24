@@ -25,7 +25,6 @@ export class RequestRepository {
     await delay(300);
     const skip = (page - 1) * limit;
 
-    // Usa $transaction para garantir que a contagem e a busca ocorram juntas
     const [data, total] = await this.prisma.$transaction([
       this.prisma.request.findMany({
         skip: skip,

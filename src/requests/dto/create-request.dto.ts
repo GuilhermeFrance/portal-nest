@@ -28,7 +28,7 @@ export class CreateRequestDto {
     description:
       'Serviço requerido, passado por id. Ex.: 1 - Iluminação, 2 - Limpeza',
   })
-  typeId: number | null;
+  typeId: number;
 
   @ApiProperty({
     description: 'ID do cliente caso haja',

@@ -1,7 +1,7 @@
 import { Client } from '@prisma/client';
 
 export class ClientEntity implements Client {
-  badgesKey: string;
+  badgesKey: string | null;
   id: number;
   name: string;
   email: string;

@@ -6,7 +6,7 @@ export class RequestEntity implements Request {
   name: string;
   description: string;
   adress: string;
-  typeId: number | null;
+  typeId: number;
   clientId: number | null;
   createdAt: Date;
   updatedAt: Date;

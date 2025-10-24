@@ -1,5 +1,6 @@
 import {
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -28,7 +29,6 @@ export class CreateClientDto {
   })
   password: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   badgesKey?: string;
 }
