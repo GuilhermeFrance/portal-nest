@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsOptional,
@@ -11,10 +12,12 @@ import { IsCpf } from 'src/common/validators/is-cpf.validator';
 export class CreateClientDto {
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({ description: 'Nome do usuario' })
   name: string;
   @IsString()
   @IsNotEmpty()
   @IsCpf({ message: 'O CPF e invalido. Verifique o numero.' })
+  @ApiProperty({ description: 'CPF do usuario (somente numeros)' })
   cpf: string;
   @IsString()
   @IsNotEmpty()
@@ -27,8 +30,13 @@ export class CreateClientDto {
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.[a-z]).*$/, {
     message: 'senha muito fraca',
   })
+  @ApiProperty({
+    description:
+      'Senha do usuario (mínimo uma letra maiúscula e um caractere especial',
+  })
   password: string;
 
   @IsOptional()
+  @ApiProperty({ description: 'Crachá do usuario (permissoes)' })
   badgesKey?: string;
 }

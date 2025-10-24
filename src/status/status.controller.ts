@@ -11,8 +11,10 @@ import { StatusService } from './status.service';
 import { CreateStatusDto } from './dto/create-status.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @IsPublic()
+@ApiTags('Status da solicitação')
 @Controller('status')
 export class StatusController {
   constructor(private readonly statusService: StatusService) {}

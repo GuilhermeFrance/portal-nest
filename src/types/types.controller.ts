@@ -14,7 +14,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @IsPublic()
-@ApiTags('Serviços (tipos de serviços prestados)')
+@ApiTags('Serviços (tipo de serviço prestado)')
 @Controller('v1/types')
 export class TypesController {
   constructor(private readonly typesService: TypesService) {}
