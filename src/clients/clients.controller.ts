@@ -28,6 +28,11 @@ export class ClientsController {
   findAll() {
     return this.clientsService.findAll();
   }
+  @IsPublic()
+  @Get('clients/:email')
+  findByEmail(@Param('email') email: string) {
+    return this.clientsService.findByEmail(email);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
