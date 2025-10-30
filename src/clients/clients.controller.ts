@@ -14,7 +14,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @ApiTags('Solicitantes/Autenticados')
-@Controller()
+@Controller('')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
@@ -34,12 +34,13 @@ export class ClientsController {
     return this.clientsService.findByEmail(email);
   }
 
-  @Get(':id')
+  @IsPublic()
+  @Get('clients/:id')
   findOne(@Param('id') id: string) {
     return this.clientsService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('clients/:id')
   update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
     return this.clientsService.update(+id, updateClientDto);
   }
