@@ -36,4 +36,8 @@ export class CreateRequestDto {
   @IsInt()
   @IsOptional()
   clientId?: number | null;
+
+  @IsString()
+  @IsOptional()
+  statusKey?: string;
 }

@@ -31,7 +31,11 @@ export class RequestRepository {
         take: limit,
         include: {
           type: true,
-          status: true,
+          status: {
+            select: {
+              name: true,
+            },
+          },
         },
       }),
       this.prisma.request.count(),
@@ -57,10 +61,29 @@ export class RequestRepository {
     return request;
   }
 
-  update(id: number, updateRequestDto: UpdateRequestDto) {
+  async update(id: number, updateRequestDto: UpdateRequestDto) {
+    // 1. Verificar se o statusKey existe (se foi passado)
+    if (updateRequestDto.statusKey) {
+      const statusExists = await this.prisma.requestStatus.findUnique({
+        where: { key: updateRequestDto.statusKey },
+      });
+
+      if (!statusExists) {
+        throw new NotFoundException(
+          `Status '${updateRequestDto.statusKey}' não encontrado`,
+        );
+      }
+    }
+
+    // 2. Atualizar e incluir relacionamentos
     return this.prisma.request.update({
       where: { id },
       data: updateRequestDto,
+      include: {
+        type: true,
+        status: true,
+        Client: true,
+      },
     });
   }
 
