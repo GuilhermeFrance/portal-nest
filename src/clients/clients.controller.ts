@@ -40,7 +40,7 @@ export class ClientsController {
     return this.clientsService.findOne(+id);
   }
 
-  @Patch('clients/:id')
+  @Patch('id/:id')
   update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
     return this.clientsService.update(+id, updateClientDto);
   }

@@ -7,14 +7,19 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
+  Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { RequestsService } from './requests.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { AuthGuard } from '@nestjs/passport';
+import { ClientPayload } from 'src/auth/models/ClientPayload';
+import { ClientFromJwt } from 'src/auth/models/ClientFromJwt';
 
-@IsPublic()
 @ApiTags('Solicitações')
 @Controller('requests')
 export class RequestsController {
@@ -36,6 +41,23 @@ export class RequestsController {
     return this.requestsService.findAllPaginated(pageNumber, limitNumber);
   }
 
+  @UseGuards(AuthGuard('jwt'))
+  @Get('my-requests')
+  getMyRequests(
+    @Req() req: { user: ClientFromJwt },
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
+  ) {
+    const pageNumber = parseInt(page);
+    const limitNumber = parseInt(limit);
+    const clientId = req.user.id;
+
+    return this.requestsService.findAllPaginated(
+      pageNumber,
+      limitNumber,
+      clientId,
+    );
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.requestsService.findOne(+id);

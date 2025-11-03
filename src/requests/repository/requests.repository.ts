@@ -21,14 +21,18 @@ export class RequestRepository {
   findAll(): Promise<RequestEntity[]> {
     return this.prisma.request.findMany();
   }
-  async findAllPaginated(page: number, limit: number) {
+  async findAllPaginated(page: number, limit: number, clientId?: number) {
     await delay(300);
     const skip = (page - 1) * limit;
+    console.log('--- REPOSITORY LOG ---');
+    console.log('Client ID recebido:', clientId, 'Tipo:', typeof clientId);
+    const whereCondition = clientId ? { clientId: clientId } : {};
 
     const [data, total] = await this.prisma.$transaction([
       this.prisma.request.findMany({
         skip: skip,
         take: limit,
+        where: whereCondition,
         include: {
           type: true,
           status: {
@@ -38,7 +42,9 @@ export class RequestRepository {
           },
         },
       }),
-      this.prisma.request.count(),
+      this.prisma.request.count({
+        where: whereCondition,
+      }),
     ]);
 
     const lastPage = Math.ceil(total / limit);
@@ -49,6 +55,18 @@ export class RequestRepository {
       lastPage,
       currentPage: page,
     };
+  }
+
+  async findAllByClientId(clientId: number): Promise<RequestEntity[]> {
+    return this.prisma.request.findMany({
+      where: {
+        clientId: clientId,
+      },
+      include: {
+        type: true,
+        status: true,
+      },
+    });
   }
 
   async findOne(id: number): Promise<RequestEntity> {
@@ -62,7 +80,6 @@ export class RequestRepository {
   }
 
   async update(id: number, updateRequestDto: UpdateRequestDto) {
-    // 1. Verificar se o statusKey existe (se foi passado)
     if (updateRequestDto.statusKey) {
       const statusExists = await this.prisma.requestStatus.findUnique({
         where: { key: updateRequestDto.statusKey },
