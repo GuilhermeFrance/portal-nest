@@ -13,7 +13,11 @@ export class CreateClientDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({ description: 'Nome do usuario' })
-  name: string;
+  firstName: string;
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ description: 'Sobrenome do usuario' })
+  surname: string;
   @IsString()
   @IsNotEmpty()
   @IsCpf({ message: 'O CPF e invalido. Verifique o numero.' })

@@ -17,7 +17,8 @@ export class AuthService {
     const payload: ClientPayload = {
       sub: client.id,
       email: client.email,
-      name: client.name,
+      name: client.firstName,
+      surname: client.surname,
       badges: client.badgesKey,
     };
 

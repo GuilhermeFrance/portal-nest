@@ -32,7 +32,8 @@ model Role {
 
 model Client {
   id        Int       @id @default(autoincrement())
-  name      String
+  firstName String
+  surname   String
   email     String    @unique
   password  String
   cpf       String    @unique

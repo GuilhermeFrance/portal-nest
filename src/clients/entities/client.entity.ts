@@ -1,9 +1,10 @@
 import { Client } from '@prisma/client';
 
 export class ClientEntity implements Client {
+  firstName: string;
+  surname: string;
   badgesKey: string | null;
   id: number;
-  name: string;
   email: string;
   password: string;
   cpf: string;

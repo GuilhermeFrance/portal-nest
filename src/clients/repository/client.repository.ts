@@ -16,7 +16,8 @@ export class ClientRepository {
     );
 
     const data = {
-      name: createClientDto.name,
+      firstName: createClientDto.firstName,
+      surname: createClientDto.surname,
       email: createClientDto.email,
       cpf: createClientDto.cpf,
       password: passwordHash,
@@ -27,7 +28,8 @@ export class ClientRepository {
       data,
       select: {
         id: true,
-        name: true,
+        firstName: true,
+        surname: true,
         email: true,
         cpf: true,
         createdAt: true,
