@@ -24,8 +24,6 @@ export class RequestRepository {
   async findAllPaginated(page: number, limit: number, clientId?: number) {
     await delay(300);
     const skip = (page - 1) * limit;
-    console.log('--- REPOSITORY LOG ---');
-    console.log('Client ID recebido:', clientId, 'Tipo:', typeof clientId);
     const whereCondition = clientId ? { clientId: clientId } : {};
 
     const [data, total] = await this.prisma.$transaction([
