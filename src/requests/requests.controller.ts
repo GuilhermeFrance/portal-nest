@@ -9,15 +9,14 @@ import {
   Query,
   UseGuards,
   Req,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { RequestsService } from './requests.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+
 import { AuthGuard } from '@nestjs/passport';
-import { ClientPayload } from 'src/auth/models/ClientPayload';
+
 import { ClientFromJwt } from 'src/auth/models/ClientFromJwt';
 
 @ApiTags('Solicitações')
@@ -70,6 +69,10 @@ export class RequestsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
+    return this.requestsService.remove(+id);
+  }
+  @Delete('my-requests/:id')
+  removeCurrent(@Param('id') id: string) {
     return this.requestsService.remove(+id);
   }
 }

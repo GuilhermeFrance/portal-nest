@@ -31,4 +31,7 @@ export class RequestsService {
   remove(id: number) {
     return this.repository.remove(id);
   }
+  removeCurrent(id: number) {
+    return this.repository.remove(id);
+  }
 }
