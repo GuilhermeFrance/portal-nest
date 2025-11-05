@@ -32,11 +32,19 @@ export class UsersController {
   findAll(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '9',
+    @Query('filter') filter?: string,
+    @Query('roleId') roleId?: string,
   ) {
     const pageNumber = parseInt(page);
     const limitNumber = parseInt(limit);
+    const parsedRoleID = roleId ? Number(roleId) : undefined;
 
-    return this.usersService.findAllPaginated(pageNumber, limitNumber);
+    return this.usersService.findAllPaginated(
+      pageNumber,
+      limitNumber,
+      filter,
+      parsedRoleID,
+    );
   }
 
   @Get(':id')

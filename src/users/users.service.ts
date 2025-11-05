@@ -18,8 +18,13 @@ export class UsersService {
     return this.repository.findAll();
   }
 
-  async findAllPaginated(page: number, limit: number) {
-    return this.repository.findAllPaginated(page, limit);
+  async findAllPaginated(
+    page: number,
+    limit: number,
+    filter?: string,
+    roleId?: number,
+  ) {
+    return this.repository.findAllPaginated(page, limit, filter, roleId);
   }
 
   findOne(id: number) {

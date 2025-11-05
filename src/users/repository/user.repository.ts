@@ -11,7 +11,10 @@ import { UserEntity } from '../entities/user.entity';
 import { delay } from 'src/utils/delay';
 import { CaslAbilityService } from 'src/casl/casl-ability/casl-ability.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-
+function generatePublicId(): string {
+  const numbers = Math.floor(1000 + Math.random() * 9999);
+  return `${numbers}`;
+}
 @Injectable()
 @UseGuards(AuthGuard)
 export class UserRepository {
@@ -19,13 +22,15 @@ export class UserRepository {
     private readonly prisma: PrismaService,
     private readonly abilityService: CaslAbilityService,
   ) {}
+
   async create(data: CreateUserDto): Promise<UserEntity> {
+    const publicId = generatePublicId();
     const ability = this.abilityService.ability;
     if (!ability.can('create', 'User')) {
       throw new UnauthorizedException('Invalid Token');
     }
     return this.prisma.user.create({
-      data,
+      data: { ...data, publicId },
       include: {
         role: {
           select: {
@@ -48,12 +53,31 @@ export class UserRepository {
     });
   }
 
-  async findAllPaginated(page: number, limit: number) {
+  async findAllPaginated(
+    page: number,
+    limit: number,
+    filter?: string,
+    roleId?: number,
+  ) {
     await delay(300);
+
     const skip = (page - 1) * limit;
 
+    const where: any = {};
+
+    if (filter && filter.trim().length > 0) {
+      where.OR = [
+        { name: { contains: filter.trim(), mode: 'insensitive' } },
+        { publicId: { contains: filter.trim(), mode: 'insensitive' } },
+        { cpf: { contains: filter.trim() } },
+      ];
+    }
+    if (typeof roleId === 'number' && !Number.isNaN(roleId)) {
+      where.roleId = roleId;
+    }
     const [data, total] = await this.prisma.$transaction([
       this.prisma.user.findMany({
+        where,
         skip: skip,
         take: limit,
 
@@ -61,7 +85,7 @@ export class UserRepository {
           role: { select: { name: true } },
         },
       }),
-      this.prisma.user.count(),
+      this.prisma.user.count({ where }),
     ]);
 
     const lastPage = Math.ceil(total / limit);
