@@ -38,13 +38,13 @@ export class RequestsController {
   ) {
     const pageNumber = parseInt(page);
     const limitNumber = parseInt(limit);
-    const parsedStatus = statusKey ? Number(statusKey) : undefined;
-
+    console.log(pageNumber, limitNumber, filter, statusKey);
     return this.requestsService.findAllPaginated(
       pageNumber,
       limitNumber,
+      statusKey,
       filter,
-      parsedStatus,
+      undefined,
     );
   }
 
@@ -54,6 +54,8 @@ export class RequestsController {
     @Req() req: { user: ClientFromJwt },
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
+    @Query('filter') filter?: string,
+    @Query('statusKey') statusKey?: string,
   ) {
     const pageNumber = parseInt(page);
     const limitNumber = parseInt(limit);
@@ -62,6 +64,8 @@ export class RequestsController {
     return this.requestsService.findAllPaginated(
       pageNumber,
       limitNumber,
+      statusKey,
+      filter,
       clientId,
     );
   }

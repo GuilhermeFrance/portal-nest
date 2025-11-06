@@ -24,29 +24,38 @@ export class RequestRepository {
   async findAllPaginated(
     page: number,
     limit: number,
-    clientId?: number,
+    statusKey?: string,
     filter?: string,
-    statusKey?: number,
+    clientId?: number,
   ) {
     await delay(300);
     const skip = (page - 1) * limit;
     const where: any = {};
 
-    if (clientId) {
+    console.log('🔍 Repository recebeu:', {
+      page,
+      limit,
+      statusKey,
+      filter,
+      clientId,
+    });
+
+    if (typeof clientId === 'number' && !Number.isNaN(clientId)) {
       where.clientId = clientId;
+    }
+
+    if (statusKey && statusKey.trim()) {
+      where.statusKey = statusKey.trim();
     }
 
     if (filter && filter.trim()) {
       where.OR = [
         { name: { contains: filter.trim(), mode: 'insensitive' } },
         { description: { contains: filter.trim(), mode: 'insensitive' } },
-        { adress: { contains: filter, mode: 'insensitive' } },
+        { adress: { contains: filter.trim(), mode: 'insensitive' } },
       ];
     }
 
-    if (statusKey) {
-      where.statusKey = statusKey;
-    }
     const [data, total] = await this.prisma.$transaction([
       this.prisma.request.findMany({
         skip: skip,
