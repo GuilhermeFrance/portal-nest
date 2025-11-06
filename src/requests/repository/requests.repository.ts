@@ -21,16 +21,37 @@ export class RequestRepository {
   findAll(): Promise<RequestEntity[]> {
     return this.prisma.request.findMany();
   }
-  async findAllPaginated(page: number, limit: number, clientId?: number) {
+  async findAllPaginated(
+    page: number,
+    limit: number,
+    clientId?: number,
+    filter?: string,
+    statusKey?: number,
+  ) {
     await delay(300);
     const skip = (page - 1) * limit;
-    const whereCondition = clientId ? { clientId: clientId } : {};
+    const where: any = {};
 
+    if (clientId) {
+      where.clientId = clientId;
+    }
+
+    if (filter && filter.trim()) {
+      where.OR = [
+        { name: { contains: filter.trim(), mode: 'insensitive' } },
+        { description: { contains: filter.trim(), mode: 'insensitive' } },
+        { adress: { contains: filter, mode: 'insensitive' } },
+      ];
+    }
+
+    if (statusKey) {
+      where.statusKey = statusKey;
+    }
     const [data, total] = await this.prisma.$transaction([
       this.prisma.request.findMany({
         skip: skip,
         take: limit,
-        where: whereCondition,
+        where: where,
         include: {
           type: true,
           status: {
@@ -41,7 +62,7 @@ export class RequestRepository {
         },
       }),
       this.prisma.request.count({
-        where: whereCondition,
+        where: where,
       }),
     ]);
 

@@ -33,11 +33,19 @@ export class RequestsController {
   findAll(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '8',
+    @Query('filter') filter?: string,
+    @Query('statusKey') statusKey?: string,
   ) {
     const pageNumber = parseInt(page);
     const limitNumber = parseInt(limit);
+    const parsedStatus = statusKey ? Number(statusKey) : undefined;
 
-    return this.requestsService.findAllPaginated(pageNumber, limitNumber);
+    return this.requestsService.findAllPaginated(
+      pageNumber,
+      limitNumber,
+      filter,
+      parsedStatus,
+    );
   }
 
   @UseGuards(AuthGuard('jwt'))

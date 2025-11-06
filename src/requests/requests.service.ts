@@ -14,8 +14,20 @@ export class RequestsService {
     return this.repository.findAll();
   }
 
-  async findAllPaginated(page: number, limit: number, clientId?: number) {
-    return this.repository.findAllPaginated(page, limit, clientId);
+  async findAllPaginated(
+    page: number,
+    limit: number,
+    filter?: string,
+    statusKey?: number,
+    clientId?: number,
+  ) {
+    return this.repository.findAllPaginated(
+      page,
+      limit,
+      clientId,
+      filter,
+      statusKey,
+    );
   }
   async findById(page: number, limit: number, clientId?: number) {
     return this.repository.findAllPaginated(page, limit, clientId);
