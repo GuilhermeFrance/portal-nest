@@ -38,11 +38,13 @@ model Client {
   email          String    @unique
   password       String
   cpf            String    @unique
-  profileImage   Image?    
+  profileImageId Int?
+  profileImage   Image?    @relation(fields: [profileImageId], references: [id])
   badgesKey      String?   @default("requester")
   badge          Badge?    @relation(fields: [badgesKey], references: [key])
   requests       Request[]
   createdAt      DateTime  @default(now())
+  imageId        Int?
 
   @@map("clients")
 }
@@ -59,17 +61,12 @@ model Badge {
 
 model Image {
   id        Int      @id @default(autoincrement())
-  fileName  String
-  mimeType  String
+  name      String
+  mimetype  String?
   size      Int
-  path      String
-  url       String?
-  ownerId   Int      @unique
-  owner     Client   @relation(fields: [ownerId], references: [id])
-  isProfile Boolean  @default(false)
+  data      Bytes
+  clients   Client[]
   createdAt DateTime @default(now())
-
-  @@index([ownerId])
 }
 
 model Request {

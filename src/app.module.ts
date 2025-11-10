@@ -17,6 +17,7 @@ import { StatusModule } from './status/status.module';
 import { BadgesModule } from './badges/badges.module';
 import { CaslAbilityService } from './casl/casl-ability/casl-ability.service';
 import { AuthService } from './auth/auth.service';
+import { AvatarsModule } from './avatars/avatars.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AuthService } from './auth/auth.service';
     AuthModule,
     StatusModule,
     BadgesModule,
+    AvatarsModule,
   ],
   controllers: [AppController],
   providers: [

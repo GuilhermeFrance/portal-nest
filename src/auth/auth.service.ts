@@ -20,6 +20,7 @@ export class AuthService {
       name: client.firstName,
       surname: client.surname,
       badges: client.badgesKey,
+      profileImgUrlId: client.profileImageId,
     };
 
     const jwtToken = this.jwtService.sign(payload);
