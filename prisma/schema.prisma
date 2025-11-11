@@ -38,7 +38,7 @@ model Client {
   email          String    @unique
   password       String
   cpf            String    @unique
-  profileImageId Int?
+  profileImageId Int?      @default(1)
   profileImage   Image?    @relation(fields: [profileImageId], references: [id])
   badgesKey      String?   @default("requester")
   badge          Badge?    @relation(fields: [badgesKey], references: [key])
