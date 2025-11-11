@@ -9,6 +9,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { IsCpf } from 'src/common/validators/is-cpf.validator';
+import { IsEmailUnique } from 'src/common/validators/unique-email.validator';
 
 export class CreateClientDto {
   @IsString()
@@ -26,6 +27,7 @@ export class CreateClientDto {
   cpf: string;
   @IsString()
   @IsNotEmpty()
+  // @IsEmailUnique({ message: 'Email em uso' })
   email: string;
 
   @MinLength(8, { message: 'senha muito curta, no minimo 8 caracteres' })
