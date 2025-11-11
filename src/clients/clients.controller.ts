@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
@@ -45,6 +46,14 @@ export class ClientsController {
     return this.clientsService.update(+id, updateClientDto);
   }
 
+  @IsPublic()
+  @Put('id/:id')
+  createICon(
+    @Param('id') id: string,
+    @Body() updateClientDto: UpdateClientDto,
+  ) {
+    return this.clientsService.update(+id, updateClientDto);
+  }
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.clientsService.remove(+id);

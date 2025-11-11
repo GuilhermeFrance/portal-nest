@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -43,4 +44,8 @@ export class CreateClientDto {
   @IsOptional()
   @ApiProperty({ description: 'Crachá do usuario (permissoes)' })
   badgesKey?: string;
+
+  @IsInt()
+  @IsOptional()
+  profileImageId?: number;
 }
