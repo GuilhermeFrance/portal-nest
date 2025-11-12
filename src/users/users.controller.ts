@@ -13,21 +13,25 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import type { ClientEntity } from 'src/clients/entities/client.entity';
 
 @ApiTags('Funcionários')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(
+    @Body() createUserDto: CreateUserDto,
+    @CurrentUser() user: ClientEntity,
+  ) {
+    return this.usersService.create(createUserDto, user);
   }
 
-  @IsPublic()
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(
     @Query('page') page: string = '1',

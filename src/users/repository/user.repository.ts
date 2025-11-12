@@ -1,34 +1,25 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {
   Injectable,
   NotFoundException,
-  UnauthorizedException,
-  UseGuards,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserEntity } from '../entities/user.entity';
 import { delay } from 'src/utils/delay';
-import { CaslAbilityService } from 'src/casl/casl-ability/casl-ability.service';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
 function generatePublicId(): string {
   const numbers = Math.floor(1000 + Math.random() * 9999);
   return `${numbers}`;
 }
 @Injectable()
-@UseGuards(AuthGuard)
 export class UserRepository {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly abilityService: CaslAbilityService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateUserDto): Promise<UserEntity> {
     const publicId = generatePublicId();
-    const ability = this.abilityService.ability;
-    if (!ability.can('create', 'User')) {
-      throw new UnauthorizedException('Invalid Token');
-    }
+
     return this.prisma.user.create({
       data: { ...data, publicId },
       include: {

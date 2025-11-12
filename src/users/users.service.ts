@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './repository/user.repository';
 import { CaslAbilityService } from 'src/casl/casl-ability/casl-ability.service';
+import type { ClientEntity } from 'src/clients/entities/client.entity';
 
 @Injectable()
 export class UsersService {
@@ -10,7 +11,15 @@ export class UsersService {
     private readonly repository: UserRepository,
     private readonly abilityService: CaslAbilityService,
   ) {}
-  create(createUserDto: CreateUserDto) {
+  create(createUserDto: CreateUserDto, currentUser: ClientEntity) {
+    const ability = this.abilityService.createForClient(currentUser);
+
+    if (!ability.can('create', 'User')) {
+      throw new UnauthorizedException(
+        'Você não tem permissão para criar usuários',
+      );
+    }
+
     return this.repository.create(createUserDto);
   }
 
