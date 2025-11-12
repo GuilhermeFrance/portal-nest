@@ -41,7 +41,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
 
   private getUniqueErrorMessage(field: string): string {
     const messages = {
-      email: 'Email em uso.',
+      email: 'Email já utilizado.',
       cpf: 'CPF em uso.',
     };
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
