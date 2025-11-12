@@ -35,6 +35,7 @@ export type DefinePermissions = (
 
 const rolePermissionsMap: Record<BadgeKey, DefinePermissions> = {
   admin(client, { can }) {
+    can('read', 'all');
     can('manage', 'all');
     can('create', 'User');
   },

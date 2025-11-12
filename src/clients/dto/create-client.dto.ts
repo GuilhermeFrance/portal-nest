@@ -9,16 +9,22 @@ import {
   MinLength,
 } from 'class-validator';
 import { IsCpf } from 'src/common/validators/is-cpf.validator';
-import { IsEmailUnique } from 'src/common/validators/unique-email.validator';
+// import { IsEmailUnique } from 'src/common/validators/unique-email.validator';
 
 export class CreateClientDto {
-  @IsString()
+  @IsString({ message: 'name must be a string' })
   @IsNotEmpty()
   @ApiProperty({ description: 'Nome do usuario' })
+  @Matches(/(?!.*\d)[\p{L}\s'-]+$/u, {
+    message: 'Nome e sobrenome só podem conter letras.',
+  })
   firstName: string;
   @IsString()
   @IsNotEmpty()
   @ApiProperty({ description: 'Sobrenome do usuario' })
+  @Matches(/(?!.*\d)[\p{L}\s'-]+$/u, {
+    message: 'Nome e sobrenome só podem conter letras.',
+  })
   surname: string;
   @IsString()
   @IsNotEmpty()
@@ -35,7 +41,7 @@ export class CreateClientDto {
   @IsString()
   @IsNotEmpty()
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.[a-z]).*$/, {
-    message: 'senha muito fraca',
+    message: 'Senha muito fraca!',
   })
   @ApiProperty({
     description:
