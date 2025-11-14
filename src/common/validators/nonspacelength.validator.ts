@@ -18,7 +18,7 @@ export function MinNonWhiteSpaceLength(
       options: validationOptions,
       validator: {
         validate(value: any, _args: ValidationArguments) {
-          if (typeof value === 'string') return false;
+          if (typeof value !== 'string') return false;
           const nonWs = value.replace(/\s+/g, '');
           return nonWs.length >= min;
         },

@@ -31,17 +31,12 @@ export class CreateRequestDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({ description: 'Endereço para suporte da solicitação' })
-  @MinLength(20, { message: 'Insira um endereço mais preciso' })
+  @MinLength(10, { message: 'Insira um endereço mais preciso' })
   @MinNonWhiteSpaceLength(10, {
     message: 'Insira um endereço mais detalhado (sem contar os espaços)',
   })
   adress: string;
 
-  @IsOptional()
-  @ApiProperty({
-    description:
-      'Estado da solicitação. Ex.: Aberto, Processando, Concluido, Rejeitado',
-  })
   @IsInt()
   @ApiProperty({
     description:
@@ -58,5 +53,9 @@ export class CreateRequestDto {
 
   @IsString()
   @IsOptional()
+  @ApiProperty({
+    description:
+      'Estado da solicitação. Ex.: Aberto, Processando, Concluido, Rejeitado',
+  })
   statusKey?: string;
 }

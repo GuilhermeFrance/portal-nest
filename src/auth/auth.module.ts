@@ -16,7 +16,7 @@ import { CaslModule } from '../casl/casl-ability/casl.module';
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '15m', algorithm: 'HS256' },
+      signOptions: { expiresIn: '5m', algorithm: 'HS256' },
     }),
     CaslModule,
   ],

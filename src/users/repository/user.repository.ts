@@ -1,16 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import {
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserEntity } from '../entities/user.entity';
 import { delay } from 'src/utils/delay';
 function generatePublicId(): string {
-  const numbers = Math.floor(1000 + Math.random() * 9999);
+  const numbers = Math.floor(1000 + Math.random() * 9000);
   return `${numbers}`;
 }
 @Injectable()
